@@ -20,7 +20,7 @@ def find_first_smoking_frame(labels):
             
     for label in labels:
         timestamp = label['Timestamp']
-        if 'Smoking' in label['Label']['Name']:
+        if ['Smoke Pipe', 'Cigarette'] in label['Label']['Name']:
             smoking_frames.append(timestamp)
 
     return find_first_matching_elements(person_frames, smoking_frames)
