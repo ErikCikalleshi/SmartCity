@@ -40,7 +40,8 @@ def lambda_handler(event, context):
     isSmoking = True if frame is not None else False
 
     person_labels = ['Person']
-    smoking_labels = ['Smoking']
+    smoking_labels = ['Smoke Pipe', 'Cigarette']
+
     person_present = any(label['Label']['Name'] in person_labels and label['Label']['Confidence'] > 70  for label in labels)
     smoking_present = any(label['Label']['Name'] in smoking_labels and label['Label']['Confidence'] > 70  for label in labels)
     smoking_person = person_present and smoking_present
