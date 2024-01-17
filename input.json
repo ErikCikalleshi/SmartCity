@@ -1,0 +1,28 @@
+{
+    "version": "0",
+    "id": "6eca2a2e-edd1-20e3-fa48-375ac912916e",
+    "detail-type": "Object Created",
+    "source": "aws.s3",
+    "account": "588965977379",
+    "time": "2024-01-17T18:09:56Z",
+    "region": "us-east-1",
+    "resources": [
+      "arn:aws:s3:::smartcity-inputvideos"
+    ],
+    "detail": {
+      "version": "0",
+      "bucket": {
+        "name": "smartcity-inputvideos"
+      },
+      "object": {
+        "key": "WhatsApp Video 2024-01-17 at 18.52.19.mp4",
+        "size": 552772,
+        "etag": "c24fdfc26fafc9625b28a9ab1e06a78e",
+        "sequencer": "0065A817F41E253B9A"
+      },
+      "request-id": "X1M7489MW55TW9JW",
+      "requester": "588965977379",
+      "source-ip-address": "193.83.58.244",
+      "reason": "PutObject"
+    }
+  }
