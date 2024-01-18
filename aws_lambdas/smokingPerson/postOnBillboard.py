@@ -5,7 +5,7 @@ from datetime import datetime as dt
 
 def storeInDB(description, frame, path):
     # Establish connection
-    redis_client = redis.StrictRedis(host='ec2-54-173-87-48.compute-1.amazonaws.com', port=6379, password='1SQRr7hyIb7peXvdcT4pSV3iu7lykHVd2qmMm+aOUBvC/Xt3vuLCzNg2QkSztjdY')
+    redis_client = redis.StrictRedis(host='ec2-3-80-119-167.compute-1.amazonaws.com', port=6379, password='1SQRr7hyIb7peXvdcT4pSV3iu7lykHVd2qmMm+aOUBvC/Xt3vuLCzNg2QkSztjdY')
 
     unique_event_id = str(uuid.uuid4())
     current_time = str(dt.now())

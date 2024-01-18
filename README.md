@@ -75,7 +75,7 @@ npm install
 Another very important thing is, that the host must be set differently, because the hostname changes after every restart. To do that, you have to go into the demo-project and then navigate to `./backend/backend.py` and change the following string accordingly (line 13):
 
 ```python
-host= 'ec2-54-91-154-144.compute-1.amazonaws.com'
+host= 'ec2-3-80-119-167.compute-1.amazonaws.com'
 ```
 
 ## Start the app in debug mode
