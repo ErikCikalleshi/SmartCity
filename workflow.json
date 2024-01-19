@@ -1,14 +1,14 @@
 {
   "Comment": "A Hello World example demonstrating various state types of the Amazon States Language. It is composed of flow control states only, so it does not need resources to run.",
-  "StartAt": "Lambda Invoke on S3 PUT",
+  "StartAt": "rekognition",
   "States": {
-    "Lambda Invoke on S3 PUT": {
+    "rekognition": {
       "Type": "Task",
       "Resource": "arn:aws:states:::lambda:invoke",
       "OutputPath": "$.Payload",
       "Parameters": {
         "Payload.$": "$",
-        "FunctionName": "arn:aws:lambda:us-east-1:712887588535:function:projectInvokeS3:$LATEST"
+        "FunctionName": "arn:aws:lambda:us-east-1:750470523092:function:rekognition:$LATEST"
       },
       "Retry": [
         {
@@ -29,15 +29,15 @@
       "Type": "Parallel",
       "Branches": [
         {
-          "StartAt": "Filter Violence",
+          "StartAt": "filter_violence",
           "States": {
-            "Filter Violence": {
+            "filter_violence": {
               "Type": "Task",
               "Resource": "arn:aws:states:::lambda:invoke",
               "OutputPath": "$.Payload",
               "Parameters": {
                 "Payload.$": "$",
-                "FunctionName": "arn:aws:lambda:us-east-1:712887588535:function:projectFilterViolence:$LATEST"
+                "FunctionName": "arn:aws:lambda:us-east-1:750470523092:function:filterViolence:$LATEST"
               },
               "Retry": [
                 {
@@ -61,20 +61,20 @@
                 {
                   "Variable": "$.fightingPresent",
                   "BooleanEquals": true,
-                  "Next": "Create description and export video (1)"
+                  "Next": "upload_police_report"
                 }
               ]
             },
             "Success": {
               "Type": "Succeed"
             },
-            "Create description and export video (1)": {
+            "upload_police_report": {
               "Type": "Task",
               "Resource": "arn:aws:states:::lambda:invoke",
               "OutputPath": "$.Payload",
               "Parameters": {
                 "Payload.$": "$",
-                "FunctionName": "arn:aws:lambda:us-east-1:712887588535:function:projectExportVideoCreateDescpriptionPolice:$LATEST"
+                "FunctionName": "arn:aws:lambda:us-east-1:750470523092:function:upload_police_report:$LATEST"
               },
               "Retry": [
                 {
@@ -94,15 +94,15 @@
           }
         },
         {
-          "StartAt": "Filter Fire",
+          "StartAt": "filter_fire",
           "States": {
-            "Filter Fire": {
+            "filter_fire": {
               "Type": "Task",
               "Resource": "arn:aws:states:::lambda:invoke",
               "OutputPath": "$.Payload",
               "Parameters": {
                 "Payload.$": "$",
-                "FunctionName": "arn:aws:lambda:us-east-1:712887588535:function:projectFilterFire:$LATEST"
+                "FunctionName": "arn:aws:lambda:us-east-1:750470523092:function:filterFire:$LATEST"
               },
               "Retry": [
                 {
@@ -125,7 +125,7 @@
                 {
                   "Variable": "$.firePresent",
                   "BooleanEquals": true,
-                  "Next": "Create description and export video"
+                  "Next": "upload_firedepartment_report"
                 }
               ],
               "Default": "Success (1)"
@@ -133,13 +133,13 @@
             "Success (1)": {
               "Type": "Succeed"
             },
-            "Create description and export video": {
+            "upload_firedepartment_report": {
               "Type": "Task",
               "Resource": "arn:aws:states:::lambda:invoke",
               "OutputPath": "$.Payload",
               "Parameters": {
                 "Payload.$": "$",
-                "FunctionName": "arn:aws:lambda:us-east-1:712887588535:function:projectCreateDescriptionAndExportVideo:$LATEST"
+                "FunctionName": "arn:aws:lambda:us-east-1:750470523092:function:upload_firedepartment_report:$LATEST"
               },
               "Retry": [
                 {
@@ -159,15 +159,15 @@
           }
         },
         {
-          "StartAt": "FilterSomikingPerson",
+          "StartAt": "filter_smoking_person",
           "States": {
-            "FilterSomikingPerson": {
+            "filter_smoking_person": {
               "Type": "Task",
               "Resource": "arn:aws:states:::lambda:invoke",
               "OutputPath": "$.Payload",
               "Parameters": {
                 "Payload.$": "$",
-                "FunctionName": "arn:aws:lambda:us-east-1:712887588535:function:projectFilterPerson:$LATEST"
+                "FunctionName": "arn:aws:lambda:us-east-1:750470523092:function:filterSmokingPerson:$LATEST"
               },
               "Retry": [
                 {
@@ -190,18 +190,18 @@
                 {
                   "Variable": "$.personSmoking",
                   "BooleanEquals": true,
-                  "Next": "perform Post on Billboards"
+                  "Next": "post_on_billboard"
                 }
               ],
               "Default": "Success (2)"
             },
-            "perform Post on Billboards": {
+            "post_on_billboard": {
               "Type": "Task",
               "Resource": "arn:aws:states:::lambda:invoke",
               "OutputPath": "$.Payload",
               "Parameters": {
                 "Payload.$": "$",
-                "FunctionName": "arn:aws:lambda:us-east-1:712887588535:function:projectPostOnBillboards:$LATEST"
+                "FunctionName": "arn:aws:lambda:us-east-1:750470523092:function:performPostonBillboards:$LATEST"
               },
               "Retry": [
                 {
