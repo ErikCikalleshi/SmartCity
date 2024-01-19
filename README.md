@@ -1,7 +1,7 @@
 # Smartcity
 
 ## Structure
-All the lambda functions are within the `aws_lambdas`-folder. the workflow is provided in both, `.json` and `.yaml`- format.
+All the lambda functions are within the `aws_lambdas`-folder. The workflow is provided in both, `.json` and `.yaml`- format.
 
 The `input.json` is the mock-input for the workflow: TODO!
 
@@ -14,7 +14,10 @@ We provide 3 example files for the step functions, which are within the `file-ex
 ## How to make the project work
 
 ### 1.0-Redis Database
-First of all, you need to set up a redis database on an EC2 machine. This database needs to be configured as this: TODO!
+First of all, you need to set up a redis database on an EC2 machine. The database can simply be started using redis-server. Preferably it would be good to write a custom config file, adding a requirepass password for more security. 
+Make sure to configure the inbound rules for the EC2 instance on port 6379 to be open for everyone, so that the Lambda functions can have access to the database running on your EC2 instance.
+
+**IMPORTANT NOTE:** After some time your EC2 instance will change its name, leading to every Lambda function which connects to the database to not work since it is using an old hostname. Please always check to have the most current hostname in the Lambda functions that try to connect to the redis Database running on your EC2 instance. In every Lambda function this has also been marked using comments above the respective line of code!
 
 ### 1.1-Step Function
 
@@ -94,7 +97,6 @@ and to start the frontend, enter the `frontend_ds` folder and type:
 ```bash
 ng serve
 ```
-
 
 ### Problems
  parameter length between states of the state machine in lambda step functions:
