@@ -3,7 +3,7 @@ import json
 import uuid
 from datetime import datetime as dt
 
-def storeInDB(description, frame, path):
+def storeInDB(description, path):
     # Establish connection
     redis_client = redis.StrictRedis(host='ec2-54-91-229-46.compute-1.amazonaws.com', port=6379, password='1SQRr7hyIb7peXvdcT4pSV3iu7lykHVd2qmMm+aOUBvC/Xt3vuLCzNg2QkSztjdY')
 
@@ -15,7 +15,6 @@ def storeInDB(description, frame, path):
     "timestamp": current_time,
     "description": description,
     "videoPath": path,
-    "frame": frame
     }
 
     # Build the key for the event
@@ -26,7 +25,6 @@ def storeInDB(description, frame, path):
 
 def lambda_handler(event, context):
     pathToVideo = event.get('pathToVideo')
-    frame = event.get('smokingFrame')
     description = "detected a smoking Person"
-    storeInDB(description, frame, pathToVideo)
+    storeInDB(description, pathToVideo)
     
