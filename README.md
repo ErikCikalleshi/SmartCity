@@ -56,6 +56,9 @@ Now you can upload a video in the bucket and the State Machine will be triggered
 
 For reference, you can also follow [this](https://docs.aws.amazon.com/step-functions/latest/dg/tutorial-cloudwatch-events-s3.html) tutorial, that was also helpful for us.
 
+## 1-3 Lambdas
+It is important that the first lambda-function has a timeout of about one minute, because Amazon Rekognition needs a bit of time to process this. So you have to edit the timeout in the lambda setting of the function `Lambda Invoke on S3 PUT`
+
 # Angular x FastApi Demo
 
 This project is just a demo project and does not contain clean code! It is just here for demo purposes.
@@ -78,7 +81,7 @@ npm install
 Another very important thing is, that the host must be set differently, because the hostname changes after every restart. To do that, you have to go into the demo-project and then navigate to `./backend/backend.py` and change the following string accordingly (line 13):
 
 ```python
-host= 'ec2-54-91-154-144.compute-1.amazonaws.com'
+host= 'ec2-54-91-229-46.compute-1.amazonaws.com'
 ```
 
 ## Start the app in debug mode
@@ -94,3 +97,7 @@ and to start the frontend, enter the `frontend_ds` folder and type:
 ```bash
 ng serve
 ```
+
+### Problems
+ parameter length between states of the state machine in lambda step functions:
+ - The state/task 'lambda' returned a result with a size exceeding the maximum number of bytes service limit.

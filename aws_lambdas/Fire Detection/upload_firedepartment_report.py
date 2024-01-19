@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime as dt
 def storeInDB(description, path):
     # Establish connection and update hostname if needed
-    redis_client = redis.StrictRedis(host='ec2-54-90-241-143.compute-1.amazonaws.com', port=6379, password='1SQRr7hyIb7peXvdcT4pSV3iu7lykHVd2qmMm+aOUBvC/Xt3vuLCzNg2QkSztjdY')
+    redis_client = redis.StrictRedis(host='ec2-54-91-229-46.compute-1.amazonaws.com', port=6379, password='1SQRr7hyIb7peXvdcT4pSV3iu7lykHVd2qmMm+aOUBvC/Xt3vuLCzNg2QkSztjdY')
 
     unique_event_id = str(uuid.uuid4())
     current_time = str(dt.now())
