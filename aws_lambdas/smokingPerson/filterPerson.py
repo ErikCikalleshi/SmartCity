@@ -7,24 +7,6 @@ def find_first_matching_elements(list1, list2):
             return element
     return None
     
-    
-def find_first_smoking_frame(labels):
-    first_smoking_frame = None
-    person_frames = []
-    smoking_frames = []
-    
-    for label in labels:
-        timestamp = label['Timestamp']
-        if 'Person' in label['Label']['Name']:
-            person_frames.append(timestamp)
-            
-    for label in labels:
-        timestamp = label['Timestamp']
-        if 'Smoking' in label['Label']['Name']:
-            smoking_frames.append(timestamp)
-
-    return find_first_matching_elements(person_frames, smoking_frames)
-    
 
 def lambda_handler(event, context):
     labels = json.loads(event['body'])
@@ -36,8 +18,6 @@ def lambda_handler(event, context):
         
     video_path = f"s3://{bucket}/{object_key}" if bucket and object_key else None
     
-    frame = find_first_smoking_frame(labels)
-    isSmoking = True if frame is not None else False
 
     person_labels = ['Person']
     smoking_labels = ['Smoke Pipe', 'Cigarette']
@@ -49,9 +29,8 @@ def lambda_handler(event, context):
     presigned_url = generate_presigned_url(bucket,object_key)
     
     return {
-        'personSmoking': isSmoking,
+        'personSmoking': True,
         'pathToVideo' : presigned_url,
-        'smokingFrame' : frame
     }
     
     
