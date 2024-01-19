@@ -3,7 +3,7 @@
 ## Structure
 All the lambda functions are within the `aws_lambdas`-folder. The workflow is provided in both, `.json` and `.yaml`- format.
 
-The `input.json` is the mock-input for the workflow: TODO!
+The `input.json` is the mock-input for the workflow!
 
 We provide 3 example files for the step functions, which are within the `file-examples`- folder. The datasets that we used were from kaggle:
 - [violence CCTV](https://www.kaggle.com/datasets/toluwaniaremu/smartcity-cctv-violence-detection-dataset-scvd) and [violence2 CCTV](https://www.kaggle.com/datasets/mohamedmustafa/real-life-violence-situations-dataset)
@@ -22,7 +22,14 @@ Make sure to configure the inbound rules for the EC2 instance on port 6379 to be
 ### 1.1-Step Function
 
 1. Paste the workflow.yaml in the Step Function
-2. For each lambda-process you have to create the lambda function separately and paste the code 
+2. Do not forget to give the right permissions to the Step Function (LabRole)
+3. Before importing the lambda code, we have to create a layer. To do that you just will need to import the "layer.zip" into a custom layer like we did on week 6.
+4. For each lambda-process you have to create the lambda function separately and paste the code 
+5. We recommend to set an appropriate timeout for the functions especially for the rekognition lambda (we used 2 minutes)
+6. The layer create before must be added to the following functions (name took from the Step-function):
+   - upload_police_report
+   - update_firedepartment_report
+   - post_on_billboard
 
 ### 1.2-Bucket & EventBridge
 
