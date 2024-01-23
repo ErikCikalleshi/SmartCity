@@ -2,15 +2,15 @@ Comment: >-
   A Hello World example demonstrating various state types of the Amazon States
   Language. It is composed of flow control states only, so it does not need
   resources to run.
-StartAt: rekognition
+StartAt: Lambda Invoke on S3 PUT
 States:
-  rekognition:
+  Lambda Invoke on S3 PUT:
     Type: Task
     Resource: arn:aws:states:::lambda:invoke
     OutputPath: $.Payload
     Parameters:
       Payload.$: $
-      FunctionName: arn:aws:lambda:us-east-1:750470523092:function:rekognition:$LATEST
+      FunctionName: arn:aws:lambda:us-east-1:565390098582:function:lmbda_trigger:$LATEST
     Retry:
       - ErrorEquals:
           - Lambda.ServiceException
@@ -24,16 +24,16 @@ States:
   Parallel:
     Type: Parallel
     Branches:
-      - StartAt: filter_violence
+      - StartAt: Filter Violence
         States:
-          filter_violence:
+          Filter Violence:
             Type: Task
             Resource: arn:aws:states:::lambda:invoke
             OutputPath: $.Payload
             Parameters:
               Payload.$: $
               FunctionName: >-
-                arn:aws:lambda:us-east-1:750470523092:function:filterViolence:$LATEST
+                arn:aws:lambda:us-east-1:565390098582:function:filterViolence:$LATEST
             Retry:
               - ErrorEquals:
                   - Lambda.ServiceException
@@ -50,17 +50,26 @@ States:
             Choices:
               - Variable: $.fightingPresent
                 BooleanEquals: true
-                Next: upload_police_report
+                Next: SNS Publish
+          SNS Publish:
+            Type: Task
+            Resource: arn:aws:states:::sns:publish
+            Parameters:
+              TopicArn: arn:aws:sns:us-east-1:565390098582:Violence
+              Message: >-
+                Attention! There was violence detected. Go to the Smart City
+                Monitoring Website to see further information
+            Next: Create description and export video (1)
           Success:
             Type: Succeed
-          upload_police_report:
+          Create description and export video (1):
             Type: Task
             Resource: arn:aws:states:::lambda:invoke
             OutputPath: $.Payload
             Parameters:
               Payload.$: $
               FunctionName: >-
-                arn:aws:lambda:us-east-1:750470523092:function:upload_police_report:$LATEST
+                arn:aws:lambda:us-east-1:565390098582:function:CreatePoliceDescription:$LATEST
             Retry:
               - ErrorEquals:
                   - Lambda.ServiceException
@@ -71,16 +80,16 @@ States:
                 MaxAttempts: 3
                 BackoffRate: 2
             End: true
-      - StartAt: filter_fire
+      - StartAt: Filter Fire
         States:
-          filter_fire:
+          Filter Fire:
             Type: Task
             Resource: arn:aws:states:::lambda:invoke
             OutputPath: $.Payload
             Parameters:
               Payload.$: $
               FunctionName: >-
-                arn:aws:lambda:us-east-1:750470523092:function:filterFire:$LATEST
+                arn:aws:lambda:us-east-1:565390098582:function:filterFire:$LATEST
             Retry:
               - ErrorEquals:
                   - Lambda.ServiceException
@@ -96,18 +105,27 @@ States:
             Choices:
               - Variable: $.firePresent
                 BooleanEquals: true
-                Next: upload_firedepartment_report
+                Next: SNS Publish Fire
             Default: Success (1)
+          SNS Publish Fire:
+            Type: Task
+            Resource: arn:aws:states:::sns:publish
+            Parameters:
+              TopicArn: arn:aws:sns:us-east-1:565390098582:Fire
+              Message: >-
+                Attention! There was violence detected. Go to the Smart City
+                Monitoring Website to see further information
+            Next: Create description and export video
           Success (1):
             Type: Succeed
-          upload_firedepartment_report:
+          Create description and export video:
             Type: Task
             Resource: arn:aws:states:::lambda:invoke
             OutputPath: $.Payload
             Parameters:
               Payload.$: $
               FunctionName: >-
-                arn:aws:lambda:us-east-1:750470523092:function:upload_firedepartment_report:$LATEST
+                arn:aws:lambda:us-east-1:565390098582:function:CreateFireDescription:$LATEST
             Retry:
               - ErrorEquals:
                   - Lambda.ServiceException
@@ -118,16 +136,16 @@ States:
                 MaxAttempts: 3
                 BackoffRate: 2
             End: true
-      - StartAt: filter_smoking_person
+      - StartAt: FilterSmokingPerson
         States:
-          filter_smoking_person:
+          FilterSmokingPerson:
             Type: Task
             Resource: arn:aws:states:::lambda:invoke
             OutputPath: $.Payload
             Parameters:
               Payload.$: $
               FunctionName: >-
-                arn:aws:lambda:us-east-1:750470523092:function:filterSmokingPerson:$LATEST
+                arn:aws:lambda:us-east-1:565390098582:function:filterSmokingPerson:$LATEST
             Retry:
               - ErrorEquals:
                   - Lambda.ServiceException
@@ -143,16 +161,16 @@ States:
             Choices:
               - Variable: $.personSmoking
                 BooleanEquals: true
-                Next: post_on_billboard
+                Next: perform Post on Billboards
             Default: Success (2)
-          post_on_billboard:
+          perform Post on Billboards:
             Type: Task
             Resource: arn:aws:states:::lambda:invoke
             OutputPath: $.Payload
             Parameters:
               Payload.$: $
               FunctionName: >-
-                arn:aws:lambda:us-east-1:750470523092:function:performPostonBillboards:$LATEST
+                arn:aws:lambda:us-east-1:565390098582:function:CreateBillboard:$LATEST
             Retry:
               - ErrorEquals:
                   - Lambda.ServiceException
