@@ -27,9 +27,8 @@ def lambda_handler(event, context):
     smoking_person = person_present and smoking_present
     
     presigned_url = generate_presigned_url(bucket,object_key)
-    
     return {
-        'personSmoking': True,
+        'personSmoking': smoking_person,
         'pathToVideo' : presigned_url,
     }
     
