@@ -21,9 +21,7 @@ def lambda_handler(event, context):
     
     bucket = event_detail.get('bucket', {}).get('name')
     object_key = object_info.get('key')
-        
-    video_path = f"s3://{bucket}/{object_key}" if bucket and object_key else None
-  
+          
     fire_labels = ['Fire', 'Flame', 'Smoke']
     fire_present = any(label['Label']['Name'] in fire_labels and label['Label']['Confidence'] > 70  for label in labels)
     

@@ -20,9 +20,7 @@ def lambda_handler(event, context):
 
     bucket = event_detail.get('bucket', {}).get('name')
     object_key = object_info.get('key')
-        
-    video_path = f"s3://{bucket}/{object_key}" if bucket and object_key else None
-    
+            
     violent_labels = ['Fighting', 'Kicking', 'Riot', 'Vandalism']
     fighting_present = any(label['Label']['Name'] in violent_labels for label in labels)
     
