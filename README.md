@@ -66,6 +66,9 @@ For reference, you can also follow [this](https://docs.aws.amazon.com/step-funct
 ## 1-3 Lambdas
 It is important that the first lambda-function has a timeout of about one minute, because Amazon Rekognition needs a bit of time to process this. So you have to edit the timeout in the lambda setting of the function `Lambda Invoke on S3 PUT`
 
+## 1-4 SNS Service, Topics and Subscriptions
+TODO
+
 # Angular x FastApi Demo
 
 This project is just a demo project and does not contain clean code! It is just here for demo purposes.
