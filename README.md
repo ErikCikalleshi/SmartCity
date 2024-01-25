@@ -10,6 +10,7 @@ We provide 3 example files for the step functions, which are within the `file-ex
 - [fire CCTV](https://www.kaggle.com/datasets/ritupande/fire-detection-from-cctv)
 - [smoking example](https://www.youtube.com/watch?v=36MIpHAwFSM&ab_channel=VideoForNeed-RoyaltyFreeVideos)
 
+The media folder just contains some images for this README.md
 
 ## How to make the project work
 
@@ -23,9 +24,10 @@ Make sure to configure the inbound rules for the EC2 instance on port 6379 to be
 
 1. Paste the workflow.yaml in the Step Function
 2. Do not forget to give the right permissions to the Step Function (LabRole)
-3. Before importing the lambda code, we have to create a layer. To do that you just will need to import the "layer.zip" into a custom layer like we did on week 6.
+3. Before importing the lambda code, we have to create a layer. To do that you just will need to import the "layer.zip" into a custom layer like we did on week 6. When creating the layer it should look something like this: 
+![layer](./media/layer.png)
 4. For each lambda-process you have to create the lambda function separately and paste the code 
-5. We recommend to set an appropriate timeout for the functions especially for the rekognition lambda (we used 2 minutes)
+5. We recommend to set an appropriate timeout for the functions especially for the rekognition lambda (filename: `rekognition.py`) (we used 2 minutes)
 6. The layer create before must be added to the following functions (name took from the Step-function):
    - upload_police_report
    - update_firedepartment_report
@@ -55,19 +57,24 @@ Function when a file is uploaded in the bucket.
 }
 ```
 <br>
-    &nbsp &nbsp c. Event type Specification 2: specific bucket name previously created <br> <br
+    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp c. Event type Specification 2: specific bucket name previously created <br> <br
 5. In target select Step Function and select the State Machine previously created
 6. Also use the existing "LabRole"
 
-Now you can upload a video in the bucket and the State Machine will be triggered.
-
 For reference, you can also follow [this](https://docs.aws.amazon.com/step-functions/latest/dg/tutorial-cloudwatch-events-s3.html) tutorial, that was also helpful for us.
 
-## 1-3 Lambdas
-It is important that the first lambda-function has a timeout of about one minute, because Amazon Rekognition needs a bit of time to process this. So you have to edit the timeout in the lambda setting of the function `Lambda Invoke on S3 PUT`
+Now you could upload a video in the bucket and the State Machine will be triggered - but theres still some configurations to make
 
-## 1-4 SNS Service, Topics and Subscriptions
-TODO
+## 1.3 Lambdas
+It is important that the first lambda-function has a timeout of about one minute, because Amazon Rekognition needs a bit of time to process this. So you have to edit the timeout in the lambda setting of the function `Lambda Invoke on S3 PUT`.
+
+## 1.4 SNS Service, Topics and Subscriptions
+We are also using SNS Service, so you have to create 2 Topics and add one subscription to see the effects. When you create a topic it should look something like this: 
+![topic](./media/topic.png)
+Additionally to add the subscriptions, you need to add a phone number to each subscription:
+![subscriptions](./media/subscriptions.png)
+
+Then you have to add the Topics to the state machine so that they will be triggered by the workflow and send a message.
 
 # Angular x FastApi Demo
 
@@ -88,7 +95,7 @@ For the frontend, install the packages with npm:
 npm install
 ```
 
-Another very important thing is, that the host must be set differently, because the hostname changes after every restart. To do that, you have to go into the demo-project and then navigate to `./backend/backend.py` and change the following string accordingly (line 13):
+Another very important thing is, that the host must be set differently, because the hostname changes after every restart. To do that, you have to go into the demo-project and then navigate to `./backend/backend.py` and change the following string accordingly (line 11):
 
 ```python
 host= 'ec2-54-174-129-113.compute-1.amazonaws.com'
@@ -108,7 +115,9 @@ and to start the frontend, enter the `frontend_ds` folder and type:
 ng serve
 ```
 
-### Problems
+Now if new Videos get added to the bucket and either violence, fire or smoking persons get detected, you will see the change on the website.
+
+## Problems
  parameter length between states of the state machine in lambda step functions:
  - The state/task 'lambda' returned a result with a size exceeding the maximum number of bytes service limit.
 
