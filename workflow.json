@@ -72,7 +72,8 @@
                 "TopicArn": "arn:aws:sns:us-east-1:565390098582:Violence",
                 "Message": "Attention! There was violence detected. Go to the Smart City Monitoring Website to see further information"
               },
-              "Next": "Create description and export video (1)"
+              "Next": "Create description and export video (1)",
+              "ResultPath": null
             },
             "Success": {
               "Type": "Succeed"
@@ -144,9 +145,10 @@
               "Resource": "arn:aws:states:::sns:publish",
               "Parameters": {
                 "TopicArn": "arn:aws:sns:us-east-1:565390098582:Fire",
-                "Message": "Attention! There was violence detected. Go to the Smart City Monitoring Website to see further information"
+                "Message": "Attention! There was fire detected. Go to the Smart City Monitoring Website to see further information"
               },
-              "Next": "Create description and export video"
+              "Next": "Create description and export video",
+              "ResultPath": null
             },
             "Success (1)": {
               "Type": "Succeed"
