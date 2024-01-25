@@ -14,10 +14,7 @@ def lambda_handler(event, context):
     object_info = event_detail.get('object', {})
         
     bucket = event_detail.get('bucket', {}).get('name')
-    object_key = object_info.get('key')
-        
-    video_path = f"s3://{bucket}/{object_key}" if bucket and object_key else None
-    
+    object_key = object_info.get('key')    
 
     person_labels = ['Person']
     smoking_labels = ['Smoke Pipe', 'Cigarette']
