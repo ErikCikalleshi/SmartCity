@@ -18,6 +18,13 @@ The media folder just contains some images for this README.md
 First of all, you need to set up a redis database on an EC2 machine. The database can simply be started using redis-server. Preferably it would be good to write a custom config file, adding a requirepass password for more security. 
 Make sure to configure the inbound rules for the EC2 instance on port 6379 to be open for everyone, so that the Lambda functions can have access to the database running on your EC2 instance.
 
+Additionally change the config on the redis server. We used this one:
+```
+requirepass 1SQRr7hyIb7peXvdcT4pSV3iu7lykHVd2qmMm+aOUBvC/Xt3vuLCzNg2QkSztjdY
+protected-mode no
+bind 0.0.0.0
+```
+
 **IMPORTANT NOTE:** After some time your EC2 instance will change its name, leading to every Lambda function which connects to the database to not work since it is using an old hostname. Please always check to have the most current hostname in the Lambda functions that try to connect to the redis Database running on your EC2 instance. In every Lambda function this has also been marked using comments above the respective line of code!
 
 ### 1.1-Step Function
