@@ -22,7 +22,7 @@ def lambda_handler(event, context):
     bucket = event_detail.get('bucket', {}).get('name')
     object_key = object_info.get('key')
           
-    fire_labels = ['Fire', 'Flame', 'Smoke']
+    fire_labels = ['Fire', 'Flame']
     fire_present = any(label['Label']['Name'] in fire_labels and label['Label']['Confidence'] > 70  for label in labels)
     
     presigned_url = generate_presigned_url(bucket,object_key)
